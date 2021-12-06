@@ -1,5 +1,9 @@
 from flask import Flask, render_template
-app = Flask('app')
+
+#export FLASK_APP=main.py
+#q for exiting git commands in terminal
+
+app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
@@ -10,3 +14,4 @@ def hi():
   return render_template("test.html")
 
 app.run(host='0.0.0.0', port=8080)
+
