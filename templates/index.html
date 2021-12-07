@@ -1,14 +1,19 @@
-<!DOCTYPE html>
+{% extends "layout.html" %}
 
-  <html lang="en">
+{% block title %}
+    Index
+{% endblock %}
 
-    <head>
-    </head>
+{% block main %}
 
-    <body>
-      <p>Ahoj</p>
-      <a href="/test.html">test</a>
+  <div>
+    <p>This will be a description of a page,
+      a word or two describing what is this app good for.
+    </p>
+  </div>
 
-    </body>
-    
-  </html>
+  <p>
+    {{ ticker }}
+  </p>
+
+{% endblock %}
