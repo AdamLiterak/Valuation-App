@@ -6,13 +6,25 @@
 
 {% block main %}
 
-  <form>
+  <div>
+    <p>This valuation tool  uses simplified DCF valuation</p>
+    <p>The goal is to find out if the company seems to be undervalued / overvalued and to find out what are the underlying assumptions of the market</p>
+  </div>
+
+  <h3>Choose ticker</h3>
+
+  <form action="/valuation" method="post">
+
     <div>
       <input autocomplete="off" name="ticker" placeholder="Ticker" type="text">
     </div>
 
     <button type="submit">Find</button>
   </form>
+
+  <h3>Retreived data</h3>
+    <h4>{{ ticker }}</h4>
+    <p>{{ info }}</p>
 
 
 {% endblock %}
