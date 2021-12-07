@@ -4,6 +4,7 @@ import yfinance as yf
 #export FLASK_APP=main.py
 #q for exiting git commands in terminal
 #token: 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
+#test1
 
 app = Flask(__name__)
 
@@ -15,7 +16,7 @@ def hello_world():
 def valuation():
   ticker = request.form.get("ticker")
   if request.method == "POST":
-    
+
     return render_template("valuation.html", ticker=ticker)
 
   else:
