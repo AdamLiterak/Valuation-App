@@ -5,6 +5,7 @@ import yfinance as yf
 #q for exiting git commands in terminal
 #token: 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
 #test1
+#test2
 
 app = Flask(__name__)
 
