@@ -3,7 +3,7 @@ import yfinance as yf
 
 #export FLASK_APP=main.py
 #q for exiting git commands in terminal
-#token: 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
+#token: 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
 #test1
 
 app = Flask(__name__)
