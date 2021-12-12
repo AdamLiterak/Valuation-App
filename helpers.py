@@ -4,7 +4,7 @@ import pandas as pd
 def add(x,y):
     return (x+y)
 
-def stock_screener(ticker_list, fundamentals_list):
+def stock_screener(ticker_list):
     '''returns df with tickers and defined fundamentals'''
     info_list = []
 
@@ -17,3 +17,10 @@ def stock_screener(ticker_list, fundamentals_list):
 
     # return df
     return info_list
+
+def ifnot(x):
+    '''function returning text if non existent'''
+    if not x:
+        x = "-not found-"
+    else:
+        x = x

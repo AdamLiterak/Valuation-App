@@ -19,12 +19,25 @@
       <input autocomplete="off" name="ticker" placeholder="Ticker" type="text">
     </div>
 
+    <div>
+      <input autocomplete="off" name="discount_rate" placeholder="Discount rate" type="number" step="any">
+    </div>
+
     <button type="submit">Find</button>
   </form>
 
   <h3>Retreived data</h3>
     <h4>{{ ticker }}</h4>
     <p>{{ info }}</p>
+    <p>{{ company_details }}</p>
+
+  <div>
+    <h3>Dividend Discount Model</h3>
+    <p>Dividend: {{ dividend }}</p>
+    <p>Payout ratio: {{ payout_ratio }}</p>
+    <p>Discount rate: {{ discount_rate }}</p>
+    <p>Value per share: {{ value_ddm }}</p>
+  </div>
 
 
 {% endblock %}
