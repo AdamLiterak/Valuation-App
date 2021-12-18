@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+
+  <div>
+    <h3>Model: retreive data from DB, display them</h3>
+    <p>the goal of this page is to display the data from the db and observe what data is missing.</p>
+    <p>the displayed data and calculated measures from past years serve as a guidline for coming up with valuation assumptions</p>
+  </div>
+
+  <h3>Choose ticker</h3>
+
+  <form action="/model" method="post">
+
+    <div>
+      <input autocomplete="off" name="ticker" placeholder="Ticker" type="text">
+    </div>
+
+    <button type="submit">Get data</button>
+  </form>
+
+  <h3>Profit and Loss Statement</h3>
+
+  <table style="width:100%">
+
+    <tr>
+      {% for i in columns %}
+      <th>{{ i }}</th>
+      {% endfor %}
+    </tr>
+  
+    {% for i in pnl %}
+      
+      <tr>
+        {% for j in columns %}
+        <td>{{ i[j] }}</td>
+        {% endfor %}
+      </tr>
+      
+    {% endfor %}
+
+  </table>
+
+
+{% endblock %}
