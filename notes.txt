@@ -1,2 +1,9 @@
 yfinance info: https://algotrading101.com/learn/yfinance-guide/
+crosstab queries: https://www.mssqltips.com/sqlservertip/1019/crosstab-queries-using-pivot-in-sql-server/
+context processors to use python functions in jinja: https://flask.palletsprojects.com/en/2.0.x/templating/#context-processors
+formatting numbers: https://queirozf.com/entries/python-number-formatting-examples
+df tables in html: https://stackoverflow.com/questions/52644035/how-to-show-a-pandas-dataframe-into-a-existing-flask-html-table
+df to html: https://stackoverflow.com/questions/14899818/format-output-data-in-pandas-to-html
+formatting table to_html(): https://stackoverflow.com/questions/38951345/how-to-get-rid-of-multilevel-index-after-using-pivot-table-pandas
+
 

@@ -1,33 +1,50 @@
 import json
 from cs50 import SQL
 
-db = SQL("sqlite:///data.db")
+db = SQL("sqlite:///data_1.db")
 text = open("aapl.txt","r").read()
 text_json = json.loads(text)
+# text.close()
 
 def save_data_from_fmp():
     db.execute("")
 
-for i in text_json:
-    date = i["date"]
-    currency = i["reportedCurrency"]
-    ticker = i["symbol"]
-    revenue = i["revenue"]
+type_pnl = "PNL"
+type_bs = "BS"
+
+items_pnl = ['revenue', 'costOfRevenue', 'grossProfit', 'researchAndDevelopmentExpenses',
+            'generalAndAdministrativeExpenses', 'sellingAndMarketingExpenses', 'sellingGeneralAndAdministrativeExpenses',
+            'otherExpenses', 'operatingExpenses', 'costAndExpenses', 'interestIncome', 'interestExpense',
+            'depreciationAndAmortization', 'ebitda', 'operatingIncome',
+            'totalOtherIncomeExpensesNet', 'incomeBeforeTax', 'incomeTaxExpense', 'netIncome']
+
+items_bs = [ 
+            'cashAndCashEquivalents', 'shortTermInvestments', 'cashAndShortTermInvestments', 'netReceivables', 'inventory', 
+            'otherCurrentAssets', 'totalCurrentAssets', 'propertyPlantEquipmentNet', 'goodwill', 'intangibleAssets', 
+            'goodwillAndIntangibleAssets', 'longTermInvestments', 'taxAssets', 'otherNonCurrentAssets', 'totalNonCurrentAssets', 
+            'otherAssets', 'totalAssets', 'accountPayables', 'shortTermDebt', 'taxPayables', 'deferredRevenue', 'otherCurrentLiabilities', 
+            'totalCurrentLiabilities', 'longTermDebt', 'deferredRevenueNonCurrent', 'deferredTaxLiabilitiesNonCurrent', 
+            'otherNonCurrentLiabilities', 'totalNonCurrentLiabilities', 'otherLiabilities', 'capitalLeaseObligations', 
+            'totalLiabilities', 'preferredStock', 'commonStock', 'retainedEarnings', 'accumulatedOtherComprehensiveIncomeLoss', 
+            'othertotalStockholdersEquity', 'totalStockholdersEquity', 'totalLiabilitiesAndStockholdersEquity', 'minorityInterest', 
+            'totalEquity', 'totalLiabilitiesAndTotalEquity', 'totalInvestments', 'totalDebt', 'netDebt']
+
+# for i in text_json:
+#     date = i["date"]
+#     currency = i["reportedCurrency"]
+#     ticker = i["symbol"]
+#     revenue = i["revenue"]
 
 for i in text_json:
     ticker = i["symbol"]
     period = i["date"][0:4] #year instead?
     currency = i["reportedCurrency"]
-    type = "PNL"
-    items = ['revenue', 'costOfRevenue', 'grossProfit', 'researchAndDevelopmentExpenses',
-            'generalAndAdministrativeExpenses', 'sellingAndMarketingExpenses', 'sellingGeneralAndAdministrativeExpenses',
-            'otherExpenses', 'operatingExpenses', 'costAndExpenses', 'interestIncome', 'interestExpense',
-            'depreciationAndAmortization', 'ebitda', 'operatingIncome',
-            'totalOtherIncomeExpensesNet', 'incomeBeforeTax', 'incomeTaxExpense', 'netIncome']
+    type = type_pnl
+    items = items_pnl
     for j in items:
         item = j
         value = i[j]
-        db.execute("INSERT INTO pnl (ticker, period, item, value, currency, type) VALUEs (?,?,?,?,?,?);",ticker,period,item,value,currency,type)
+        db.execute("INSERT INTO financials (ticker, period, item, value, currency, type) VALUEs (?,?,?,?,?,?);",ticker,period,item,value,currency,type)
 
 
 # ['date', 'symbol', 'reportedCurrency', 'cik', 'fillingDate', 'acceptedDate', 'calendarYear', 'period',
@@ -37,6 +54,18 @@ for i in text_json:
 #  'depreciationAndAmortization', 'ebitda', 'ebitdaratio', 'operatingIncome', 'operatingIncomeRatio',
 #  'totalOtherIncomeExpensesNet', 'incomeBeforeTax', 'incomeBeforeTaxRatio', 'incomeTaxExpense', 'netIncome',
 #  'netIncomeRatio', 'eps', 'epsdiluted', 'weightedAverageShsOut', 'weightedAverageShsOutDil', 'link', 'finalLink']
+
+# ['date', 'symbol', 'reportedCurrency', 'cik', 'fillingDate', 'acceptedDate', 'calendarYear', 'period', 
+# 'cashAndCashEquivalents', 'shortTermInvestments', 'cashAndShortTermInvestments', 'netReceivables', 'inventory', 
+# 'otherCurrentAssets', 'totalCurrentAssets', 'propertyPlantEquipmentNet', 'goodwill', 'intangibleAssets', 
+# 'goodwillAndIntangibleAssets', 'longTermInvestments', 'taxAssets', 'otherNonCurrentAssets', 'totalNonCurrentAssets', 
+# 'otherAssets', 'totalAssets', 'accountPayables', 'shortTermDebt', 'taxPayables', 'deferredRevenue', 'otherCurrentLiabilities', 
+# 'totalCurrentLiabilities', 'longTermDebt', 'deferredRevenueNonCurrent', 'deferredTaxLiabilitiesNonCurrent', 
+# 'otherNonCurrentLiabilities', 'totalNonCurrentLiabilities', 'otherLiabilities', 'capitalLeaseObligations', 
+# 'totalLiabilities', 'preferredStock', 'commonStock', 'retainedEarnings', 'accumulatedOtherComprehensiveIncomeLoss', 
+# 'othertotalStockholdersEquity', 'totalStockholdersEquity', 'totalLiabilitiesAndStockholdersEquity', 'minorityInterest', 
+# 'totalEquity', 'totalLiabilitiesAndTotalEquity', 'totalInvestments', 'totalDebt', 'netDebt', 'link', 'finalLink']
+
 
 #   "date" : "1986-09-30",
 #   "symbol" : "AAPL",

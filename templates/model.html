@@ -40,10 +40,33 @@
         <td>{{ i[j] }}</td>
         {% endfor %}
       </tr>
+      <!-- "${:,.2f}".format(i[j]|float) -->
       
     {% endfor %}
 
   </table>
 
+  <p>{{ to_number("Jana") }}</p>
+  <p>{{ to_number(38000000000) }}</p>
+  <p>{{ to_number(21323.121) }}</p>
+
+  <p>{{ pnl_1 }}</p>
+  <p>{{ pnl_columns }}</p>
+
+  <p>{{ pnl_dict}}</p>
+
+
+  <table>
+  {% for table in tables %}
+            {{ table|safe }}
+  {% endfor %}
+  </table>
+
+  <p>blabla</p>
+
+
+
 
 {% endblock %}
+
+<!-- {{titles[loop.index]}} -->

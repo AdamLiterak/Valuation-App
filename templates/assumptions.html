@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+
+  <div>
+    <h3>Assumptions: get the valuation assumptions and get send to the valuation template</h3>
+    <p>user will fill up the form with assumptions about the company here.</p>
+  </div>
+
+  <h3>Choose ticker</h3>
+
+  <form action="/assumptions" method="post">
+
+    <div>
+      <label>Company</label>
+      <input autocomplete="off" name="ticker" placeholder="Ticker" type="text">
+    </div>
+
+    <div>
+      <label>Years before terminal value</label>
+      <input autocomplete="off" name="years" placeholder="Years" type="text">
+    </div>
+
+    <div>
+      <label>Revenue growth</label>
+      <input autocomplete="off" name="revenueGrowth" placeholder="Revenue Growth" type="text">
+    </div>
+
+    <div>
+      <label>EBITDA Margin</label>
+      <input autocomplete="off" name="ebitdaMargin" placeholder="Margin" type="text">
+    </div>
+
+    <div>
+      <label>WACC</label>
+      <input autocomplete="off" name="wacc" placeholder="WACC" type="text">
+    </div>
+
+    <button type="submit">Save</button>
+  </form>
+
+{% endblock %}

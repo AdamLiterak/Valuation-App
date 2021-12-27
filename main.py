@@ -4,6 +4,7 @@ import yfinance as yf
 import pandas as pd
 from cs50 import SQL
 from helpers import add, stock_screener
+import pandas as pd
 
 # 1. download proper data on command into a database
 # 2. view data from the database + add missing data manually
@@ -25,6 +26,40 @@ file.close()
 queries_list = queries.split(";")
 
 #FUNCTIONS
+def growth(start,end):
+  return (end/start-1)
+
+def cagr(start,end,periods):
+  '''calculates CAGR, periods calculated (end_year - start_year)'''
+  return ((end/start)**(1/periods))-1
+
+def numbers(number):
+  return int(number/1000)
+
+def to_number_1(x):
+  '''function to format numbers'''
+  if type(x) == str:
+      return x
+  elif (type(x) == int) or (type(x) == float):
+      return "{:,}".format(x)
+  else:
+      return "error"
+
+
+# CONTEXT PROCESSORS
+@app.context_processor
+def utility_processor():
+
+  def to_number(x):
+    '''function to format numbers'''
+    if type(x) == str:
+        return x
+    elif (type(x) == int) or (type(x) == float):
+        return "{:,}".format(x)
+    else:
+        return "error"
+
+  return dict(to_number=to_number)
 
 
 #ROUTES
@@ -32,19 +67,61 @@ queries_list = queries.split(";")
 def hello_world():
   return render_template("index.html")
 
+
 @app.route('/model', methods=["GET","POST"])
 def model():
   if request.method == "POST":
     ticker = request.form.get("ticker")
+
+    #first version - to be deleted later
     pnl = db.execute(queries_list[0], ticker)
     columns = []
     for i in pnl[0]:
       columns.append(i)
+    
+    #pandas DF version:
+    period_max = int(db.execute(queries_list[2], ticker)[0]['MAX(period)'])
+    period_min = period_max - 4
+    pnl_data = db.execute(queries_list[1], ticker, period_min)
+    pnl_dataframe = pd.DataFrame(pnl_data)
+    pnl_1 = pnl_dataframe.pivot(index="item",columns="period",values="value").rename_axis(None)
+    pnl_columns = list(pnl_1.columns)
+    
+    pnl_dict = pnl_1.to_dict()
+    # pnl_columns_dict = pnl_columns.to_dict()
 
-    return render_template("model.html", columns=columns, pnl=pnl)
+    return render_template("model.html", 
+    tables=[pnl_1.to_html(classes='df_table', float_format='{:,}'.format, header=True)], 
+    # titles=pnl_1.columns.values, 
+    columns=columns, 
+    pnl=pnl, 
+    pnl_1 = pnl_1, 
+    pnl_columns = pnl_columns, 
+    pnl_dict=pnl_dict, 
+    pnl_dataframe=pnl_dataframe)
 
   else:
     return render_template("model.html")
+
+
+@app.route('/assumptions', methods=["GET","POST"])
+def assumptions():
+  if request.method == "POST":
+    ticker = request.form.get("ticker")
+    years = int(request.form.get("years"))
+    revenueGrowth = request.form.get("revenueGrowth")
+    ebitdaMargin = request.form.get("ebitdaMargin")
+    wacc = request.form.get("wacc")
+
+    for i in range(years):
+      db.execute(queries_list[3], ticker, i+1, "revenueGrowth", revenueGrowth)
+      db.execute(queries_list[3], ticker, i+1, "ebitdaMargin", ebitdaMargin)
+      db.execute(queries_list[3], ticker, i+1, "wacc", wacc)
+
+    return render_template("assumptions.html")
+  else:
+    return render_template("assumptions.html")
+
 
 @app.route('/valuation', methods=["GET", "POST"])
 def valuation():
