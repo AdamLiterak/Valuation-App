@@ -6,12 +6,6 @@
 
 {% block main %}
 
-  <div>
-    <h3>Model: retreive data from DB, display them</h3>
-    <p>the goal of this page is to display the data from the db and observe what data is missing.</p>
-    <p>the displayed data and calculated measures from past years serve as a guidline for coming up with valuation assumptions</p>
-  </div>
-
   <h3>Choose ticker</h3>
 
   <form action="/model" method="post">
@@ -20,49 +14,18 @@
       <input autocomplete="off" name="ticker" placeholder="Ticker" type="text">
     </div>
 
+    <div>
+      <input autocomplete="off" name="years" placeholder="Years" type="number">
+    </div>
+    
     <button type="submit">Get data</button>
   </form>
 
-  <h3>Profit and Loss Statement</h3>
-
-  <table style="width:100%">
-
-    <tr>
-      {% for i in columns %}
-      <th>{{ i }}</th>
-      {% endfor %}
-    </tr>
-  
-    {% for i in pnl %}
-      
-      <tr>
-        {% for j in columns %}
-        <td>{{ i[j] }}</td>
-        {% endfor %}
-      </tr>
-      <!-- "${:,.2f}".format(i[j]|float) -->
-      
-    {% endfor %}
-
-  </table>
-
-  <p>{{ to_number("Jana") }}</p>
-  <p>{{ to_number(38000000000) }}</p>
-  <p>{{ to_number(21323.121) }}</p>
-
-  <p>{{ pnl_df_pivoted }}</p>
-  <p>{{ pnl_columns }}</p>
-
-  <p>{{ pnl_dict}}</p>
-
+  <h3>{{ ticker }}</h3>
 
   <table>
-  {% for table in tables %}
-            {{ table|safe }}
-  {% endfor %}
+    {{ pnl_table|safe }}
   </table>
-
-  <p>blabla</p>
 
 
 

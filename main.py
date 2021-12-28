@@ -68,47 +68,41 @@ def hello_world():
   return render_template("index.html")
 
 
+@app.route('/get_data', methods=["GET","POST"])
+def get_data():
+  return render_template("get_data.html")
+
+
 @app.route('/model', methods=["GET","POST"])
 def model():
   if request.method == "POST":
+    # input from the user
     ticker = request.form.get("ticker")
-
-    #first version - to be deleted later
-    pnl = db.execute(queries_list[0], ticker)
-    columns = []
-    for i in pnl[0]:
-      columns.append(i)
+    years = int(request.form.get("years"))
     
-    # PANDAS DF VERSION
-    period_max = int(db.execute(queries_list[2], ticker)[0]['MAX(period)'])
-    period_min = period_max - 7
-    pnl_df = pd.DataFrame(db.execute(queries_list[1], ticker, period_min))
+    # using PANDAS df to manipulate the data from db and get a table with output
+    # PNL
+    period_max = int(db.execute(queries_list[2], ticker, "PNL")[0]['MAX(period)'])
+    period_min = period_max - years
+    pnl_df = pd.DataFrame(db.execute(queries_list[1], ticker, "PNL", period_min))
     pnl_df_pivoted = pnl_df.pivot(index="item",columns="period",values="value").rename_axis(None)
+
+    # BS
+
+    # CF
+
+    # ANALYSIS
 
     # connecting to the mapping
     mapping = pd.read_csv("mapping.csv").set_index("item")
     pnl = pnl_df_pivoted.merge(mapping, left_index=True, right_index=True).sort_values('order').set_index('name').rename_axis(None)
     pnl = pnl.iloc[:,0:(len(list(pnl.columns))-1)]
 
-
-
-    pnl_columns = list(pnl_df_pivoted.columns)
-    
-    pnl_dict = pnl_df_pivoted.to_dict()
-    # pnl_columns_dict = pnl_columns.to_dict()
-
-    # rendering the tenplate with all the values
+    # RENDER
     return render_template("model.html",
-
-    tables=[pnl_df_pivoted.to_html(classes='df_table', float_format='{:,}'.format, header=True),
-    pnl.to_html(classes='df_table', float_format='{:,.0f}'.format, header=True)],
-
-    columns=columns, 
-    pnl=pnl, 
-    pnl_df_pivoted = pnl_df_pivoted, 
-    pnl_columns = pnl_columns, 
-    pnl_dict=pnl_dict, 
-    pnl_df=pnl_df)
+    ticker = ticker,
+    pnl_table = pnl.to_html(classes='df_table', float_format='{:,.0f}'.format, header=True),
+    )
 
   else:
     return render_template("model.html")

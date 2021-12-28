@@ -25,10 +25,10 @@ WHERE
     item="revenue" or item="ebitda";
 
 -- q[1]: getting data for pandas DF PNL
-SELECT * FROM financials WHERE (ticker like ?) AND (type like "PNL") AND (period > ?);
+SELECT * FROM financials WHERE (ticker like ?) AND (type like ?) AND (period > ?);
 
 -- q[2]: finding MAX period available for the ticker in the db
-SELECT MAX(period) FROM financials WHERE (ticker like ?) AND (type like "PNL");
+SELECT MAX(period) FROM financials WHERE (ticker like ?) AND (type like ?);
 
 -- q[3]: saving assumptions into the db
 INSERT INTO assumptions (ticker, period, item, value) VALUEs (?,?,?,?);
