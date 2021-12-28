@@ -5,5 +5,7 @@ formatting numbers: https://queirozf.com/entries/python-number-formatting-exampl
 df tables in html: https://stackoverflow.com/questions/52644035/how-to-show-a-pandas-dataframe-into-a-existing-flask-html-table
 df to html: https://stackoverflow.com/questions/14899818/format-output-data-in-pandas-to-html
 formatting table to_html(): https://stackoverflow.com/questions/38951345/how-to-get-rid-of-multilevel-index-after-using-pivot-table-pandas
+color pallettes: https://icolorpalette.com
+
 
 

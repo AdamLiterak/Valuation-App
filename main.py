@@ -79,26 +79,36 @@ def model():
     for i in pnl[0]:
       columns.append(i)
     
-    #pandas DF version:
+    # PANDAS DF VERSION
     period_max = int(db.execute(queries_list[2], ticker)[0]['MAX(period)'])
-    period_min = period_max - 4
-    pnl_data = db.execute(queries_list[1], ticker, period_min)
-    pnl_dataframe = pd.DataFrame(pnl_data)
-    pnl_1 = pnl_dataframe.pivot(index="item",columns="period",values="value").rename_axis(None)
-    pnl_columns = list(pnl_1.columns)
+    period_min = period_max - 7
+    pnl_df = pd.DataFrame(db.execute(queries_list[1], ticker, period_min))
+    pnl_df_pivoted = pnl_df.pivot(index="item",columns="period",values="value").rename_axis(None)
+
+    # connecting to the mapping
+    mapping = pd.read_csv("mapping.csv").set_index("item")
+    pnl = pnl_df_pivoted.merge(mapping, left_index=True, right_index=True).sort_values('order').set_index('name').rename_axis(None)
+    pnl = pnl.iloc[:,0:(len(list(pnl.columns))-1)]
+
+
+
+    pnl_columns = list(pnl_df_pivoted.columns)
     
-    pnl_dict = pnl_1.to_dict()
+    pnl_dict = pnl_df_pivoted.to_dict()
     # pnl_columns_dict = pnl_columns.to_dict()
 
-    return render_template("model.html", 
-    tables=[pnl_1.to_html(classes='df_table', float_format='{:,}'.format, header=True)], 
-    # titles=pnl_1.columns.values, 
+    # rendering the tenplate with all the values
+    return render_template("model.html",
+
+    tables=[pnl_df_pivoted.to_html(classes='df_table', float_format='{:,}'.format, header=True),
+    pnl.to_html(classes='df_table', float_format='{:,.0f}'.format, header=True)],
+
     columns=columns, 
     pnl=pnl, 
-    pnl_1 = pnl_1, 
+    pnl_df_pivoted = pnl_df_pivoted, 
     pnl_columns = pnl_columns, 
     pnl_dict=pnl_dict, 
-    pnl_dataframe=pnl_dataframe)
+    pnl_df=pnl_df)
 
   else:
     return render_template("model.html")
@@ -135,7 +145,6 @@ def valuation():
 
     #COMPANY DATA - rework this to use list of needed data 
     #info = stock_screener(ticker_list)
-
     #creating an yf onject
     ticker_yf = yf.Ticker(ticker)
 

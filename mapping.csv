@@ -1,3 +1,20 @@
-item, name, order
-revenue, Revenue, 1
-grossProfit, Gross Profit, 2
+item,name,order
+revenue,Revenue,1
+costOfRevenue,Cost of Revenue,2
+grossProfit,Gross Profit,3
+generalAndAdministrativeExpenses,General Admin Expenses,4
+sellingAndMarketingExpenses,Sales & Marketing Expenses,5
+depreciationAndAmortization,D&A,6
+sellingGeneralAndAdministrativeExpenses,Selling Genereal & Administrative,7
+researchAndDevelopmentExpenses,R&D Expenses,8
+otherExpenses,Other Expenses,9
+operatingExpenses,Operating Expenses,10
+costAndExpenses,Total Expense,11
+operatingIncome,Operating Income,12
+interestIncome,Interest Income,13
+interestExpense,Interest Expense,14
+totalOtherIncomeExpensesNet,Other Income/Expense Netto,15
+incomeBeforeTax,Income Before Tax,16
+incomeTaxExpense,Income Tax Expense,17
+netIncome,Net Income,18
+ebitda,EBITDA,19

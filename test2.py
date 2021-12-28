@@ -33,8 +33,9 @@ print(new_df_1)
 print(len(list(new_df_1.columns)))
 
 
-df_4 = pd.read_csv("mapping.csv").set_index("item")
+df_4 = pd.read_csv("mapping.csv")
+# .set_index("item")
 print(df_4)
 
-df_5 = dataframe_pivoted.merge(df_4, left_index=True, right_index=True)
+df_5 = dataframe_pivoted.merge(df_4, left_index=True, right_on='item').sort_values('order').set_index('name')
 print(df_5)
